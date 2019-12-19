@@ -33,4 +33,7 @@
     </entry>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" />
+  <component name="ProjectType">
+    <option name="id" value="io.flutter" />
+  </component>
 </project>

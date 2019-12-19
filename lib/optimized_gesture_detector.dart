@@ -32,6 +32,10 @@ class OptimizedGestureDetector extends StatelessWidget {
   final OpsScaleUpdateCallback _scaleUpdateCallback;
   final OpsScaleEndCallback _scaleEndCallback;
 
+  final OpsTapCancelCallback _tapCancelCallback;
+  final OpsMoveCancelCallback _moveCancelCallback;
+  final OpsScaleCancelCallback _scaleCancelCallback;
+
   int _tapDownTime = INITIAL_INT_VALUE;
 
   bool _isSingleTap = false;
@@ -59,27 +63,33 @@ class OptimizedGestureDetector extends StatelessWidget {
       {Key key,
       OpsTapDownCallback tapDown,
       OpsSingleTapUpCallback singleTapUp,
+      OpsTapCancelCallback tapCancel,
       OpsDoubleTapUpCallback doubleTapUp,
       OpsDragStartCallback dragStart,
       OpsDragUpdateCallback dragUpdate,
       OpsDragEndCallback dragEnd,
       OpsMoveStartCallback moveStart,
+      OpsMoveCancelCallback moveCancel,
       OpsMoveUpdateCallback moveUpdate,
       OpsMoveEndCallback moveEnd,
       OpsScaleStartCallback scaleStart,
+      OpsScaleCancelCallback scaleCancel,
       OpsScaleUpdateCallback scaleUpdate,
       OpsScaleEndCallback scaleEnd,
       this.child})
       : _tapDownCallback = tapDown,
+        _tapCancelCallback = tapCancel,
         _singleTapCallback = singleTapUp,
         _doubleTapCallback = doubleTapUp,
         _dragStartCallback = dragStart,
         _dragUpdateCallback = dragUpdate,
         _dragEndCallback = dragEnd,
         _moveStartCallback = moveStart,
+        _moveCancelCallback = moveCancel,
         _moveUpdateCallback = moveUpdate,
         _moveEndCallback = moveEnd,
         _scaleStartCallback = scaleStart,
+        _scaleCancelCallback = scaleCancel,
         _scaleUpdateCallback = scaleUpdate,
         _scaleEndCallback = scaleEnd,
         super(key: key);
@@ -137,6 +147,9 @@ class OptimizedGestureDetector extends StatelessWidget {
         _isSingleTap = false;
         _isDoubleTap = false;
         _cancelAndResetSingleTapTimer();
+        if (_tapCancelCallback != null) {
+          _tapCancelCallback();
+        }
       },
       onLongPressStart: (details) {
         Util.L1("onLongPressStart", details);
@@ -260,6 +273,9 @@ class OptimizedGestureDetector extends StatelessWidget {
     Util.L2("_moveCancel");
     _isMoveCancel = true;
     _resetLastMoveUpdatePos();
+    if (_moveCancelCallback != null) {
+      _moveCancelCallback();
+    }
   }
 
   /// _scale* methods means zoom then move
@@ -317,6 +333,9 @@ class OptimizedGestureDetector extends StatelessWidget {
     _isScaleCancel = true;
     _resetScaleDirection();
     _resetLastScaleUpdatePos();
+    if (_scaleCancelCallback != null) {
+      _scaleCancelCallback();
+    }
   }
 
   void _resetLastMoveUpdatePos() {
