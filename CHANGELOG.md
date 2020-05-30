@@ -1,3 +1,5 @@
+## [0.0.4] - 20200529
+* add gestures for use gesture arena
 ## [0.0.3] - 20200228
 * Add LICENSE file.
 ## [0.0.2] - 20191219

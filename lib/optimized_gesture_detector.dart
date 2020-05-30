@@ -57,6 +57,8 @@ class OptimizedGestureDetector extends StatelessWidget {
 
   List<int> _scaleTwoKeys = List();
 
+  final Map<Type, GestureRecognizerFactory> gestures;
+
   final Widget child;
 
   OptimizedGestureDetector(
@@ -76,6 +78,7 @@ class OptimizedGestureDetector extends StatelessWidget {
       OpsScaleCancelCallback scaleCancel,
       OpsScaleUpdateCallback scaleUpdate,
       OpsScaleEndCallback scaleEnd,
+      this.gestures,
       this.child})
       : _tapDownCallback = tapDown,
         _tapCancelCallback = tapCancel,
@@ -97,6 +100,7 @@ class OptimizedGestureDetector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return gd.CoreGestureDetector(
+      customGestures: gestures,
       child: child,
       onTapDown: (details) {
         Util.L1("onTapDown", details);

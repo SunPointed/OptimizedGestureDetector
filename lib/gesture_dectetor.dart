@@ -17,6 +17,7 @@ class CoreGestureDetector extends StatelessWidget {
     this.onScaleUpdate,
     this.onScaleEnd,
     this.behavior,
+    this.customGestures,
     this.excludeFromSemantics = false,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(excludeFromSemantics != null),
@@ -39,6 +40,8 @@ class CoreGestureDetector extends StatelessWidget {
   final scale.GestureScaleStartCallback onScaleStart;
   final scale.GestureScaleUpdateCallback onScaleUpdate;
   final scale.GestureScaleEndCallback onScaleEnd;
+
+  final Map<Type, GestureRecognizerFactory> customGestures;
 
 //  /// The pointer is in contact with the screen and has pressed with sufficient
 //  /// force to initiate a force press. The amount of force is at least
@@ -109,6 +112,10 @@ class CoreGestureDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<Type, GestureRecognizerFactory> gestures =
         <Type, GestureRecognizerFactory>{};
+
+    if(customGestures != null){
+      gestures.addAll(customGestures);
+    }
 
     if (onTapDown != null || onTapUp != null || onTapCancel != null) {
       gestures[TapGestureRecognizer] =
