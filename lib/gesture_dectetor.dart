@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:optimized_gesture_detector/collection_gesture_recognizer.dart';
 import 'package:optimized_gesture_detector/scale.dart' as scale;
 
 class CoreGestureDetector extends StatelessWidget {
@@ -107,6 +108,8 @@ class CoreGestureDetector extends StatelessWidget {
   ///
   ///  * [DragGestureRecognizer.dragStartBehavior], which gives an example for the different behaviors.
   final DragStartBehavior dragStartBehavior;
+
+  final CollectionGestureRecognizer _collectionGestureRecognizer = CollectionGestureRecognizer();
 
   @override
   Widget build(BuildContext context) {
