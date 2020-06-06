@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:optimized_gesture_detector/collection_gesture_recognizer.dart';
 import 'package:optimized_gesture_detector/scale.dart' as scale;
 
 class CoreGestureDetector extends StatelessWidget {
@@ -18,10 +17,11 @@ class CoreGestureDetector extends StatelessWidget {
     this.onScaleUpdate,
     this.onScaleEnd,
     this.behavior,
-    this.customGestures,
     this.excludeFromSemantics = false,
     this.dragStartBehavior = DragStartBehavior.start,
-  })  : assert(excludeFromSemantics != null),
+    this.canDragDown
+  })
+      : assert(excludeFromSemantics != null),
         assert(dragStartBehavior != null),
         super(key: key);
 
@@ -41,8 +41,6 @@ class CoreGestureDetector extends StatelessWidget {
   final scale.GestureScaleStartCallback onScaleStart;
   final scale.GestureScaleUpdateCallback onScaleUpdate;
   final scale.GestureScaleEndCallback onScaleEnd;
-
-  final Map<Type, GestureRecognizerFactory> customGestures;
 
 //  /// The pointer is in contact with the screen and has pressed with sufficient
 //  /// force to initiate a force press. The amount of force is at least
@@ -109,28 +107,26 @@ class CoreGestureDetector extends StatelessWidget {
   ///  * [DragGestureRecognizer.dragStartBehavior], which gives an example for the different behaviors.
   final DragStartBehavior dragStartBehavior;
 
-  final CollectionGestureRecognizer _collectionGestureRecognizer = CollectionGestureRecognizer();
+  final GestureArenaTeam _team = GestureArenaTeam();
+
+  final CanDragDownFunction canDragDown;
 
   @override
   Widget build(BuildContext context) {
     final Map<Type, GestureRecognizerFactory> gestures =
-        <Type, GestureRecognizerFactory>{};
-
-    if(customGestures != null){
-      gestures.addAll(customGestures);
-    }
+    <Type, GestureRecognizerFactory>{};
 
     if (onTapDown != null || onTapUp != null || onTapCancel != null) {
       gestures[TapGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-        () => TapGestureRecognizer(debugOwner: this),
-        (TapGestureRecognizer instance) {
-          instance
-            ..onTapDown = onTapDown
-            ..onTapUp = onTapUp
-            ..onTapCancel = onTapCancel;
-        },
-      );
+                () => TapGestureRecognizer(debugOwner: this),
+                (TapGestureRecognizer instance) {
+              instance
+                ..onTapDown = onTapDown
+                ..onTapUp = onTapUp
+                ..onTapCancel = onTapCancel;
+            },
+          );
     }
 
     if (onLongPressStart != null ||
@@ -138,45 +134,64 @@ class CoreGestureDetector extends StatelessWidget {
         onLongPressEnd != null) {
       gestures[LongPressGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
-        () => LongPressGestureRecognizer(debugOwner: this),
-        (LongPressGestureRecognizer instance) {
-          instance
-            ..onLongPressStart = onLongPressStart
-            ..onLongPressMoveUpdate = onLongPressMoveUpdate
-            ..onLongPressEnd = onLongPressEnd;
-        },
-      );
+                () => LongPressGestureRecognizer(debugOwner: this),
+                (LongPressGestureRecognizer instance) {
+              instance
+                ..onLongPressStart = onLongPressStart
+                ..onLongPressMoveUpdate = onLongPressMoveUpdate
+                ..onLongPressEnd = onLongPressEnd;
+            },
+          );
     }
 
     if (onScaleStart != null || onScaleUpdate != null || onScaleEnd != null) {
       gestures[scale.OpsScaleGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<scale.OpsScaleGestureRecognizer>(
-        () => scale.OpsScaleGestureRecognizer(debugOwner: this),
-        (scale.OpsScaleGestureRecognizer instance) {
-          instance
-            ..onStart = onScaleStart
-            ..onUpdate = onScaleUpdate
-            ..onEnd = onScaleEnd;
-        },
-      );
+                () => scale.OpsScaleGestureRecognizer(debugOwner: this),
+                (scale.OpsScaleGestureRecognizer instance) {
+              _team.captain = instance;
+              if (instance.team == null) {
+                instance.team = _team;
+              }
+              instance
+                ..onStart = onScaleStart
+                ..onUpdate = onScaleUpdate
+                ..onEnd = onScaleEnd;
+            },
+          );
     }
 
-//    if (onForcePressStart != null ||
-//        onForcePressPeak != null ||
-//        onForcePressUpdate != null ||
-//        onForcePressEnd != null) {
-//      gestures[ForcePressGestureRecognizer] =
-//          GestureRecognizerFactoryWithHandlers<ForcePressGestureRecognizer>(
-//        () => ForcePressGestureRecognizer(debugOwner: this),
-//        (ForcePressGestureRecognizer instance) {
-//          instance
-//            ..onStart = onForcePressStart
-//            ..onPeak = onForcePressPeak
-//            ..onUpdate = onForcePressUpdate
-//            ..onEnd = onForcePressEnd;
-//        },
-//      );
-//    }
+    gestures[HorizontalDragGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
+              () => HorizontalDragGestureRecognizer(debugOwner: this),
+              (HorizontalDragGestureRecognizer instance) {
+            if (instance.team == null) {
+              instance.team = _team;
+            }
+            instance
+              ..onDown = _gestureDragDownCallback()
+              ..onCancel = null
+              ..onStart = null
+              ..onUpdate = null
+              ..onEnd = null;
+          },
+        );
+
+    gestures[VerticalDragGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(debugOwner: this),
+              (VerticalDragGestureRecognizer instance) {
+            if (instance.team == null) {
+              instance.team = _team;
+            }
+            instance
+              ..onDown = _gestureDragDownCallback()
+              ..onCancel = null
+              ..onStart = null
+              ..onUpdate = null
+              ..onEnd = null;
+          },
+        );
 
     return RawGestureDetector(
       gestures: gestures,
@@ -186,6 +201,12 @@ class CoreGestureDetector extends StatelessWidget {
     );
   }
 
+  GestureDragDownCallback _gestureDragDownCallback() {
+    if (canDragDown == null) return null;
+
+    return canDragDown() ? (e) {} : null;
+  }
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
@@ -193,3 +214,5 @@ class CoreGestureDetector extends StatelessWidget {
         EnumProperty<DragStartBehavior>('startBehavior', dragStartBehavior));
   }
 }
+
+typedef CanDragDownFunction = bool Function();

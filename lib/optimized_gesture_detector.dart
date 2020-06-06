@@ -9,6 +9,8 @@ import 'package:optimized_gesture_detector/gesture_dectetor.dart' as gd;
 import 'package:optimized_gesture_detector/scale.dart' as scale;
 import 'package:optimized_gesture_detector/utils.dart';
 
+import 'gesture_dectetor.dart';
+
 // ignore: must_be_immutable
 class OptimizedGestureDetector extends StatelessWidget {
   static const int INITIAL_INT_VALUE = -1;
@@ -57,9 +59,9 @@ class OptimizedGestureDetector extends StatelessWidget {
 
   List<int> _scaleTwoKeys = List();
 
-  final Map<Type, GestureRecognizerFactory> gestures;
-
   final Widget child;
+
+  final gd.CanDragDownFunction _canDragDown;
 
   OptimizedGestureDetector(
       {Key key,
@@ -78,7 +80,7 @@ class OptimizedGestureDetector extends StatelessWidget {
       OpsScaleCancelCallback scaleCancel,
       OpsScaleUpdateCallback scaleUpdate,
       OpsScaleEndCallback scaleEnd,
-      this.gestures,
+      gd.CanDragDownFunction needHelpScaleFunction,
       this.child})
       : _tapDownCallback = tapDown,
         _tapCancelCallback = tapCancel,
@@ -95,12 +97,13 @@ class OptimizedGestureDetector extends StatelessWidget {
         _scaleCancelCallback = scaleCancel,
         _scaleUpdateCallback = scaleUpdate,
         _scaleEndCallback = scaleEnd,
+        _canDragDown = needHelpScaleFunction,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return gd.CoreGestureDetector(
-      customGestures: gestures,
+      canDragDown: _canDragDown,
       child: child,
       onTapDown: (details) {
         Util.L1("onTapDown", details);
