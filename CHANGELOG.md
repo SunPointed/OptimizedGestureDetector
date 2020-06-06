@@ -1,3 +1,5 @@
+## [0.0.5] - 20200606
+* use GestureArenaTeam too help scale gesture recognizer resolve gesture conflict
 ## [0.0.4] - 20200529
 * add gestures for use gesture arena
 ## [0.0.3] - 20200228

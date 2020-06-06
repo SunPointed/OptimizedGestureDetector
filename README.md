@@ -6,5 +6,5 @@ An optimized class on flutter GestureDetector. Flutter's GestureDetector has its
 **1.add dependencies**
 ```
     dependencies:
-        optimized_gesture_detector: ^0.0.4
+        optimized_gesture_detector: ^0.0.5
 ```
