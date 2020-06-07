@@ -61,7 +61,8 @@ class OptimizedGestureDetector extends StatelessWidget {
 
   final Widget child;
 
-  final gd.CanDragDownFunction _canDragDown;
+  final gd.CanDragDownFunction _canHDragDown;
+  final gd.CanDragDownFunction _canVDragDown;
 
   OptimizedGestureDetector(
       {Key key,
@@ -80,7 +81,8 @@ class OptimizedGestureDetector extends StatelessWidget {
       OpsScaleCancelCallback scaleCancel,
       OpsScaleUpdateCallback scaleUpdate,
       OpsScaleEndCallback scaleEnd,
-      gd.CanDragDownFunction needHelpScaleFunction,
+      gd.CanDragDownFunction needHorizontalConflictFunc,
+      gd.CanDragDownFunction needVerticalConflictFunc,
       this.child})
       : _tapDownCallback = tapDown,
         _tapCancelCallback = tapCancel,
@@ -97,13 +99,15 @@ class OptimizedGestureDetector extends StatelessWidget {
         _scaleCancelCallback = scaleCancel,
         _scaleUpdateCallback = scaleUpdate,
         _scaleEndCallback = scaleEnd,
-        _canDragDown = needHelpScaleFunction,
+        _canHDragDown = needHorizontalConflictFunc,
+        _canVDragDown = needVerticalConflictFunc,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return gd.CoreGestureDetector(
-      canDragDown: _canDragDown,
+      canHDragDown: _canHDragDown,
+      canVDragDown: _canVDragDown,
       child: child,
       onTapDown: (details) {
         Util.L1("onTapDown", details);

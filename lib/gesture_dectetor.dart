@@ -4,23 +4,23 @@ import 'package:flutter/widgets.dart';
 import 'package:optimized_gesture_detector/scale.dart' as scale;
 
 class CoreGestureDetector extends StatelessWidget {
-  CoreGestureDetector({
-    Key key,
-    this.child,
-    this.onTapDown,
-    this.onTapUp,
-    this.onTapCancel,
-    this.onLongPressStart,
-    this.onLongPressMoveUpdate,
-    this.onLongPressEnd,
-    this.onScaleStart,
-    this.onScaleUpdate,
-    this.onScaleEnd,
-    this.behavior,
-    this.excludeFromSemantics = false,
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.canDragDown
-  })
+  CoreGestureDetector(
+      {Key key,
+      this.child,
+      this.onTapDown,
+      this.onTapUp,
+      this.onTapCancel,
+      this.onLongPressStart,
+      this.onLongPressMoveUpdate,
+      this.onLongPressEnd,
+      this.onScaleStart,
+      this.onScaleUpdate,
+      this.onScaleEnd,
+      this.behavior,
+      this.excludeFromSemantics = false,
+      this.dragStartBehavior = DragStartBehavior.start,
+      this.canHDragDown,
+      this.canVDragDown})
       : assert(excludeFromSemantics != null),
         assert(dragStartBehavior != null),
         super(key: key);
@@ -109,24 +109,25 @@ class CoreGestureDetector extends StatelessWidget {
 
   final GestureArenaTeam _team = GestureArenaTeam();
 
-  final CanDragDownFunction canDragDown;
+  final CanDragDownFunction canHDragDown;
+  final CanDragDownFunction canVDragDown;
 
   @override
   Widget build(BuildContext context) {
     final Map<Type, GestureRecognizerFactory> gestures =
-    <Type, GestureRecognizerFactory>{};
+        <Type, GestureRecognizerFactory>{};
 
     if (onTapDown != null || onTapUp != null || onTapCancel != null) {
       gestures[TapGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-                () => TapGestureRecognizer(debugOwner: this),
-                (TapGestureRecognizer instance) {
-              instance
-                ..onTapDown = onTapDown
-                ..onTapUp = onTapUp
-                ..onTapCancel = onTapCancel;
-            },
-          );
+        () => TapGestureRecognizer(debugOwner: this),
+        (TapGestureRecognizer instance) {
+          instance
+            ..onTapDown = onTapDown
+            ..onTapUp = onTapUp
+            ..onTapCancel = onTapCancel;
+        },
+      );
     }
 
     if (onLongPressStart != null ||
@@ -134,64 +135,64 @@ class CoreGestureDetector extends StatelessWidget {
         onLongPressEnd != null) {
       gestures[LongPressGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
-                () => LongPressGestureRecognizer(debugOwner: this),
-                (LongPressGestureRecognizer instance) {
-              instance
-                ..onLongPressStart = onLongPressStart
-                ..onLongPressMoveUpdate = onLongPressMoveUpdate
-                ..onLongPressEnd = onLongPressEnd;
-            },
-          );
+        () => LongPressGestureRecognizer(debugOwner: this),
+        (LongPressGestureRecognizer instance) {
+          instance
+            ..onLongPressStart = onLongPressStart
+            ..onLongPressMoveUpdate = onLongPressMoveUpdate
+            ..onLongPressEnd = onLongPressEnd;
+        },
+      );
     }
 
     if (onScaleStart != null || onScaleUpdate != null || onScaleEnd != null) {
       gestures[scale.OpsScaleGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<scale.OpsScaleGestureRecognizer>(
-                () => scale.OpsScaleGestureRecognizer(debugOwner: this),
-                (scale.OpsScaleGestureRecognizer instance) {
-              _team.captain = instance;
-              if (instance.team == null) {
-                instance.team = _team;
-              }
-              instance
-                ..onStart = onScaleStart
-                ..onUpdate = onScaleUpdate
-                ..onEnd = onScaleEnd;
-            },
-          );
+        () => scale.OpsScaleGestureRecognizer(debugOwner: this),
+        (scale.OpsScaleGestureRecognizer instance) {
+          _team.captain = instance;
+          if (instance.team == null) {
+            instance.team = _team;
+          }
+          instance
+            ..onStart = onScaleStart
+            ..onUpdate = onScaleUpdate
+            ..onEnd = onScaleEnd;
+        },
+      );
     }
 
     gestures[HorizontalDragGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
-              () => HorizontalDragGestureRecognizer(debugOwner: this),
-              (HorizontalDragGestureRecognizer instance) {
-            if (instance.team == null) {
-              instance.team = _team;
-            }
-            instance
-              ..onDown = _gestureDragDownCallback()
-              ..onCancel = null
-              ..onStart = null
-              ..onUpdate = null
-              ..onEnd = null;
-          },
-        );
+      () => HorizontalDragGestureRecognizer(debugOwner: this),
+      (HorizontalDragGestureRecognizer instance) {
+        if (instance.team == null) {
+          instance.team = _team;
+        }
+        instance
+          ..onDown = _gestureHDragDownCallback()
+          ..onCancel = null
+          ..onStart = null
+          ..onUpdate = null
+          ..onEnd = null;
+      },
+    );
 
     gestures[VerticalDragGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
-              () => VerticalDragGestureRecognizer(debugOwner: this),
-              (VerticalDragGestureRecognizer instance) {
-            if (instance.team == null) {
-              instance.team = _team;
-            }
-            instance
-              ..onDown = _gestureDragDownCallback()
-              ..onCancel = null
-              ..onStart = null
-              ..onUpdate = null
-              ..onEnd = null;
-          },
-        );
+      () => VerticalDragGestureRecognizer(debugOwner: this),
+      (VerticalDragGestureRecognizer instance) {
+        if (instance.team == null) {
+          instance.team = _team;
+        }
+        instance
+          ..onDown = _gestureVDragDownCallback()
+          ..onCancel = null
+          ..onStart = null
+          ..onUpdate = null
+          ..onEnd = null;
+      },
+    );
 
     return RawGestureDetector(
       gestures: gestures,
@@ -201,10 +202,16 @@ class CoreGestureDetector extends StatelessWidget {
     );
   }
 
-  GestureDragDownCallback _gestureDragDownCallback() {
-    if (canDragDown == null) return null;
+  GestureDragDownCallback _gestureVDragDownCallback() {
+    if (canVDragDown == null) return null;
 
-    return canDragDown() ? (e) {} : null;
+    return canVDragDown() ? (e) {} : null;
+  }
+
+  GestureDragDownCallback _gestureHDragDownCallback() {
+    if (canHDragDown == null) return null;
+
+    return canHDragDown() ? (e) {} : null;
   }
 
   @override
