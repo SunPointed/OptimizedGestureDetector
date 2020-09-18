@@ -1,3 +1,7 @@
+## [0.0.6] - 20200918
+* Update to Flutter breaking change, VelocityTracker now takes an argument.
+* Removed unused import.
+* Version 0.0.5 is for Flutter pre 1.22 and Version 0.0.6 is for 1.22 and later.
 ## [0.0.5] - 20200606
 * use GestureArenaTeam too help scale gesture recognizer resolve gesture conflict
 ## [0.0.4] - 20200529
