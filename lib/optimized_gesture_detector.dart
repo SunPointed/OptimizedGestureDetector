@@ -9,8 +9,6 @@ import 'package:optimized_gesture_detector/gesture_dectetor.dart' as gd;
 import 'package:optimized_gesture_detector/scale.dart' as scale;
 import 'package:optimized_gesture_detector/utils.dart';
 
-import 'gesture_dectetor.dart';
-
 // ignore: must_be_immutable
 class OptimizedGestureDetector extends StatelessWidget {
   static const int INITIAL_INT_VALUE = -1;
