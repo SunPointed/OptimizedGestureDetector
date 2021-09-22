@@ -28,7 +28,7 @@ class DetailsUtils {
   }
 
   static OpsScaleUpdateDetails toOpsScaleUpdateDetails(
-      OpsSUpdateDetails details, Direction mainDirection) {
+      OpsSUpdateDetails details, Direction? mainDirection) {
     return OpsScaleUpdateDetails(
         globalFocalPoint: details.focalPoint,
         localFocalPoint: details.localFocalPoint,
