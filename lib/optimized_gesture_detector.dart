@@ -56,7 +56,7 @@ class OptimizedGestureDetector extends StatelessWidget {
   Offset? _lastScaleUpdateLocalPos;
 
   // ignore: deprecated_member_use
-  List<int> _scaleTwoKeys = List<int>.empty();
+  List<int> _scaleTwoKeys = [];
 
   final Widget? child;
 
