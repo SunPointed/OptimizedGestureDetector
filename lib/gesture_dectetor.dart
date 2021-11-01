@@ -5,7 +5,7 @@ import 'package:optimized_gesture_detector/scale.dart' as scale;
 
 class CoreGestureDetector extends StatelessWidget {
   CoreGestureDetector(
-      {Key key,
+      {Key? key,
       this.child,
       this.onTapDown,
       this.onTapUp,
@@ -28,19 +28,19 @@ class CoreGestureDetector extends StatelessWidget {
   /// The widget below this widget in the tree.
   ///
   /// {@macro flutter.widgets.child}
-  final Widget child;
+  final Widget? child;
 
-  final GestureTapDownCallback onTapDown;
-  final GestureTapUpCallback onTapUp;
-  final GestureTapCancelCallback onTapCancel;
+  final GestureTapDownCallback? onTapDown;
+  final GestureTapUpCallback? onTapUp;
+  final GestureTapCancelCallback? onTapCancel;
 
-  final GestureLongPressStartCallback onLongPressStart;
-  final GestureLongPressMoveUpdateCallback onLongPressMoveUpdate;
-  final GestureLongPressEndCallback onLongPressEnd;
+  final GestureLongPressStartCallback? onLongPressStart;
+  final GestureLongPressMoveUpdateCallback? onLongPressMoveUpdate;
+  final GestureLongPressEndCallback? onLongPressEnd;
 
-  final scale.GestureScaleStartCallback onScaleStart;
-  final scale.GestureScaleUpdateCallback onScaleUpdate;
-  final scale.GestureScaleEndCallback onScaleEnd;
+  final scale.GestureScaleStartCallback? onScaleStart;
+  final scale.GestureScaleUpdateCallback? onScaleUpdate;
+  final scale.GestureScaleEndCallback? onScaleEnd;
 
 //  /// The pointer is in contact with the screen and has pressed with sufficient
 //  /// force to initiate a force press. The amount of force is at least
@@ -77,7 +77,7 @@ class CoreGestureDetector extends StatelessWidget {
   ///
   /// This defaults to [HitTestBehavior.deferToChild] if [child] is not null and
   /// [HitTestBehavior.translucent] if child is null.
-  final HitTestBehavior behavior;
+  final HitTestBehavior? behavior;
 
   /// Whether to exclude these gestures from the semantics tree. For
   /// example, the long-press gesture for showing a tooltip is
@@ -109,8 +109,8 @@ class CoreGestureDetector extends StatelessWidget {
 
   final GestureArenaTeam _team = GestureArenaTeam();
 
-  final CanDragDownFunction canHDragDown;
-  final CanDragDownFunction canVDragDown;
+  final CanDragDownFunction? canHDragDown;
+  final CanDragDownFunction? canVDragDown;
 
   @override
   Widget build(BuildContext context) {
@@ -202,16 +202,16 @@ class CoreGestureDetector extends StatelessWidget {
     );
   }
 
-  GestureDragDownCallback _gestureVDragDownCallback() {
+  GestureDragDownCallback? _gestureVDragDownCallback() {
     if (canVDragDown == null) return null;
 
-    return canVDragDown() ? (e) {} : null;
+    return canVDragDown!() ? (e) {} : null;
   }
 
-  GestureDragDownCallback _gestureHDragDownCallback() {
+  GestureDragDownCallback? _gestureHDragDownCallback() {
     if (canHDragDown == null) return null;
 
-    return canHDragDown() ? (e) {} : null;
+    return canHDragDown!() ? (e) {} : null;
   }
 
   @override
