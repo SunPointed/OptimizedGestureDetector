@@ -21,9 +21,7 @@ class CoreGestureDetector extends StatelessWidget {
       this.dragStartBehavior = DragStartBehavior.start,
       this.canHDragDown,
       this.canVDragDown})
-      : assert(excludeFromSemantics != null),
-        assert(dragStartBehavior != null),
-        super(key: key);
+      : super(key: key);
 
   /// The widget below this widget in the tree.
   ///

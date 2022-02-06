@@ -43,8 +43,7 @@ class OpsSStartDetails {
     this.localPointerLocations,
     this.focalPoint = Offset.zero,
     Offset? localFocalPoint,
-  })  : assert(focalPoint != null),
-        localFocalPoint = localFocalPoint ?? focalPoint;
+  })  : localFocalPoint = localFocalPoint ?? focalPoint;
 
   final Map<int, Offset>? globalPointerLocations;
   final Map<int, Offset>? localPointerLocations;
@@ -72,11 +71,9 @@ class OpsSUpdateDetails {
     this.horizontalScale = 1.0,
     this.verticalScale = 1.0,
     this.rotation = 0.0,
-  })  : assert(focalPoint != null),
-        assert(scale != null && scale >= 0.0),
-        assert(horizontalScale != null && horizontalScale >= 0.0),
-        assert(verticalScale != null && verticalScale >= 0.0),
-        assert(rotation != null),
+  })  : assert(scale >= 0.0),
+        assert(horizontalScale >= 0.0),
+        assert(verticalScale >= 0.0),
         localFocalPoint = localFocalPoint ?? focalPoint;
 
   final Map<int, Offset>? globalPointerLocations;
@@ -101,8 +98,7 @@ class OpsSEndDetails {
   OpsSEndDetails(
       {this.globalPointerLocations,
       this.localPointerLocations,
-      this.velocity = Velocity.zero})
-      : assert(velocity != null);
+      this.velocity = Velocity.zero});
 
   final Map<int, Offset>? globalPointerLocations;
   final Map<int, Offset>? localPointerLocations;
@@ -116,7 +112,6 @@ class OpsSEndDetails {
 }
 
 bool _isFlingGesture(Velocity velocity) {
-  assert(velocity != null);
   final double speedSquared = velocity.pixelsPerSecond.distanceSquared;
   return speedSquared > kMinFlingVelocity * kMinFlingVelocity;
 }
@@ -135,7 +130,6 @@ class _LineBetweenPointers {
     this.pointerEndLocation = Offset.zero,
     this.pointerEndId = 1,
   })  : assert(pointerStartLocation != null && pointerEndLocation != null),
-        assert(pointerStartId != null && pointerEndId != null),
         assert(pointerStartId != pointerEndId);
 
   // The location and the id of the pointer that marks the start of the line.
@@ -247,7 +241,6 @@ class OpsScaleGestureRecognizer extends OneSequenceGestureRecognizer {
     bool shouldStartIfAccepted = false;
     if (event is PointerMoveEvent) {
       final VelocityTracker tracker = _velocityTrackers[event.pointer]!;
-      assert(tracker != null);
       if (!event.synthesized)
         tracker.addPosition(event.timeStamp, event.position);
       _pointerLocations![event.pointer] = event.position;
@@ -344,7 +337,6 @@ class OpsScaleGestureRecognizer extends OneSequenceGestureRecognizer {
     if (_state == _ScaleState.started) {
       if (onEnd != null) {
         final VelocityTracker tracker = _velocityTrackers[pointer]!;
-        assert(tracker != null);
 
         Velocity velocity = tracker.getVelocity();
         if (_isFlingGesture(velocity)) {
