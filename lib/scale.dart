@@ -155,7 +155,7 @@ class OpsScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   OpsScaleGestureRecognizer({
     Object? debugOwner,
     PointerDeviceKind? kind,
-  }) : super(debugOwner: debugOwner, kind: kind);
+  }) : super(debugOwner: debugOwner);
 
   /// The pointers in contact with the screen have established a focal point and
   /// initial scale of 1.0.
@@ -220,7 +220,7 @@ class OpsScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   @override
   void addAllowedPointer(PointerEvent event) {
     startTrackingPointer(event.pointer, event.transform);
-    _velocityTrackers[event.pointer] = VelocityTracker(event.kind);
+    _velocityTrackers[event.pointer] = VelocityTracker.withKind(event.kind);
     if (_state == _ScaleState.ready) {
       _state = _ScaleState.possible;
       _initialSpan = 0.0;

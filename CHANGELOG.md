@@ -1,3 +1,7 @@
+## [0.1.1] - 20220516
+* Flutter 3 fixes
+## [0.1.0] - 20220206
+* Null safety version
 ## [0.0.6] - 20200918
 * Update to Flutter breaking change, VelocityTracker now takes an argument.
 * Removed unused import.
