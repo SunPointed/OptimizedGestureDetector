@@ -1,3 +1,8 @@
+## [1.0.0] - 20221016
+* Flutter 3.3 fixes
+* Upgrade dependencies cupertino_icons
+* Bump sdk from >=2.12.0 to >=2.17.0
+* Bump flutter from >1.21.0 to flutter: >=3.0.0
 ## [0.1.1] - 20220516
 * Flutter 3 fixes
 ## [0.1.0] - 20220206
