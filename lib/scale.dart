@@ -8,8 +8,7 @@ typedef GestureScaleStartCallback = void Function(OpsSStartDetails details);
 
 /// Signature for when the pointers in contact with the screen have indicated a
 /// new focal point and/or scale.
-typedef GestureScaleUpdateCallback = void Function(
-    OpsSUpdateDetails details);
+typedef GestureScaleUpdateCallback = void Function(OpsSUpdateDetails details);
 
 /// Signature for when the pointers are no longer in contact with the screen.
 typedef GestureScaleEndCallback = void Function(OpsSEndDetails details);
@@ -226,7 +225,7 @@ class OpsScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   @override
   void addAllowedPointer(PointerEvent event) {
     startTrackingPointer(event.pointer, event.transform);
-    _velocityTrackers[event.pointer] = VelocityTracker(event.kind);
+    _velocityTrackers[event.pointer] = VelocityTracker.withKind(event.kind);
     if (_state == _ScaleState.ready) {
       _state = _ScaleState.possible;
       _initialSpan = 0.0;
