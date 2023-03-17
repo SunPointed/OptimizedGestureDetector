@@ -1,5 +1,4 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 
 /// Signature for when the pointers in contact with the screen have established

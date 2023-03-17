@@ -1,3 +1,6 @@
+## [1.0.1] - 20230317
+* Flutter 3.7 updates
+* Fix lint issues
 ## [1.0.0] - 20221016
 * Flutter 3.3 fixes
 * Upgrade dependencies cupertino_icons
