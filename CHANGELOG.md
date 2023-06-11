@@ -1,3 +1,5 @@
+## [1.1.0] 2023-06-11
+* Flutter 3.10 updates
 ## [1.0.1] - 20230317
 * Flutter 3.7 updates
 * Fix lint issues
