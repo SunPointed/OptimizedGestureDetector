@@ -1,3 +1,6 @@
+## [1.2.0] 2023-10-27
+* Update sdk constraints to >=3.0.0 <4.0.0
+* Upgrade example app dependencies cupertino_icons
 ## [1.1.0] 2023-06-11
 * Flutter 3.10 updates
 ## [1.0.1] - 20230317
