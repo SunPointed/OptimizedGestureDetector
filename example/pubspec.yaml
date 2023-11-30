@@ -1,5 +1,5 @@
 name: example
-description: A new Flutter application.
+description: Gesture Detector Demo
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,10 +11,11 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.1.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.16.0 <3.0.0'
+  # flutter: ">=2.2.0-10.3.pre"
 
 dependencies:
   flutter:
