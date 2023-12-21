@@ -1,6 +1,6 @@
 name: optimized_gesture_detector
-description: a optimized class on flutter GestureDector
-version: 1.2.0
+description: An optimized class on flutter GestureDetector
+version: 1.2.1
 homepage: https://github.com/SunPointed/OptimizedGestureDetector
 
 environment:
