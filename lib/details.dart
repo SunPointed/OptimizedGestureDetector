@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:optimized_gesture_detector/direction.dart';
 
 class OpsMoveStartDetails {
-  OpsMoveStartDetails({this.globalPoint = Offset.zero, Offset localPoint})
+  OpsMoveStartDetails({this.globalPoint = Offset.zero, Offset? localPoint})
       : localPoint = localPoint ?? globalPoint;
 
   final Offset localPoint;
@@ -10,7 +10,7 @@ class OpsMoveStartDetails {
 }
 
 class OpsMoveUpdateDetails {
-  OpsMoveUpdateDetails({this.globalPoint = Offset.zero, Offset localPoint})
+  OpsMoveUpdateDetails({this.globalPoint = Offset.zero, Offset? localPoint})
       : localPoint = localPoint ?? globalPoint;
 
   final Offset localPoint;
@@ -21,7 +21,7 @@ class OpsMoveEndDetails {
   OpsMoveEndDetails(
       {this.velocity = Velocity.zero,
       this.globalPoint = Offset.zero,
-      Offset localPoint})
+      Offset? localPoint})
       : localPoint = localPoint ?? globalPoint;
 
   final Velocity velocity;
@@ -30,7 +30,7 @@ class OpsMoveEndDetails {
 }
 
 class OpsScaleStartDetails {
-  OpsScaleStartDetails({this.globalPoint = Offset.zero, Offset localPoint})
+  OpsScaleStartDetails({this.globalPoint = Offset.zero, Offset? localPoint})
       : localPoint = localPoint ?? globalPoint;
 
   final Offset localPoint;
@@ -40,8 +40,8 @@ class OpsScaleStartDetails {
 class OpsScaleUpdateDetails {
   OpsScaleUpdateDetails(
       {this.globalFocalPoint = Offset.zero,
-      Offset localFocalPoint,
-      Direction mainDirection,
+      Offset? localFocalPoint,
+      Direction? mainDirection,
       this.scale = 1.0,
       this.horizontalScale = 1.0,
       this.verticalScale = 1.0,
@@ -62,7 +62,7 @@ class OpsScaleEndDetails {
   OpsScaleEndDetails(
       {this.velocity = Velocity.zero,
       this.globalPoint = Offset.zero,
-      Offset localPoint})
+      Offset? localPoint})
       : localPoint = localPoint ?? globalPoint;
 
   final Velocity velocity;
